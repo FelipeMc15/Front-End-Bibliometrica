@@ -1,0 +1,32 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.lading_container {
+    position: relative;
+    z-index: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100vw;
+    height: 700px;
+}
+
+.custom-shape-divider-top-1680825755 {
+    position: relative;
+    z-index: 1;
+    background-color: yellow;
+    width: 100%;
+    height: 80px;
+}
+
+.landing_info_container {
+    position: relative;
+    z-index: 3;
+    width: 90%;
+    height: 80%;
+    margin: auto;
+/*     background-color: whitesmoke; */
+    border-radius: 12px;
+}
