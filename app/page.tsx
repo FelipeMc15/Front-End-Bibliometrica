@@ -1,10 +1,10 @@
-"use client";
+'use client';
+import { useRouter } from 'next/navigation';
 import Image from "next/image";
-import "./page.css";
-
-/* bg-gray-200 */
+import { publicRoutes } from 'routes/routes.models';
 
 export default function Root() {
+  const router = useRouter();
   return (
     <div className="  sm:h-[100vh] sm:w-[100vw] h-[100vh] w-[100vw] grid  place-content-center landing_info_container">
       
