@@ -96,7 +96,7 @@ export default function Login() {
             )}
             {!errors.user && !errors.password && (
               <div
-                className="absolute ml-44 sm:mt-12 mt-[4.5rem] cursor-pointer"
+                className="absolute ml-40 sm:mt-12 mt-[4.5rem] cursor-pointer"
                 onClick={() => setShowPwd(!showPwd)}
               >
                 {showPwd ? (
