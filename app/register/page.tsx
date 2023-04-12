@@ -2,23 +2,29 @@
 import Image from "next/image";
 import Link from "next/link";
 import { publicRoutes } from "routes/routes.models";
-import LoginImage from "./assets/Login-Image.jpeg";
+import LoginImage from "../login/assets/Login-Image.jpeg";
 import { FormEvent, useRef, useState } from "react";
 import { getUserAction } from "redux/actions/user-actions/get.user.action";
 import { useDispatch } from "react-redux";
 import { Dispatch } from "redux";
 import NavBarLogAndReg from "app/components/NavBarLogAndReg";
 
-export default function Login() {
+export default function Register() {
   const [showPwd, setShowPwd] = useState(false);
-  const [errors, setErrors] = useState({ user: "", password: "" });
+  const [errors, setErrors] = useState({name:"", lastname:"", user: "", password: "" });
   const formRef = useRef() as React.MutableRefObject<HTMLFormElement>;
   const dispatch = useDispatch<Dispatch<any>>();
-  function handleLogin(e: FormEvent) {
+  function handleRegister(e: FormEvent) {
     e.preventDefault();
     const formData = new FormData(formRef.current);
     const values = Object.fromEntries(formData);
-    const errorObject = { user: "", password: "" };
+    const errorObject = {name:"", lastname:"", user: "", password: "" };
+    if (values.name === "") {
+      errorObject.name = "Debe ingresar un nombre";
+    }
+    if (values.lastname === "") {
+      errorObject.lastname = "Debe ingresar un apellido";
+    }
     if (values.user === "") {
       errorObject.user = "Debe ingresar un usuario";
     }
@@ -27,11 +33,11 @@ export default function Login() {
       errorObject.password = "Debe ingresar una contraseña";
     }
     setErrors(errorObject);
-    dispatch(getUserAction(1));
+    //dispatch(getUserAction(1));
   }
   function handleChange() {
-    if (errors.user || errors.password) {
-      setErrors({ user: "", password: "" });
+    if (errors.name || errors.lastname || errors.user || errors.password) {
+      setErrors({name: "", lastname: "", user: "", password: ""});
     }
   }
   return (
@@ -39,7 +45,7 @@ export default function Login() {
       <NavBarLogAndReg />
       <main
         className={
-          !errors.user && !errors.password
+          !errors.name && !errors.lastname && !errors.user && !errors.password
             ? "flex sm:flex-row flex-col-reverse h-[85vh] gap-2"
             : "flex sm:flex-row flex-col-reverse h-[85vh]"
         }
@@ -53,23 +59,45 @@ export default function Login() {
         />
         <section
           className={
-            !errors.user && !errors.password
-              ? "w-screen flex flex-col justify-center items-center gap-4 p-4"
+            !errors.name && !errors.lastname && !errors.user && !errors.password
+            ? "w-screen flex flex-col justify-center items-center gap-4 p-4"
               : "w-screen flex flex-col justify-center items-center gap-4 pt-4"
           }
         >
           <h1 className="font-bold text-grey text-2xl">
-            Ingreso de <span className="text-indigo-700">Usuarios</span>
+            Registro de <span className="text-indigo-700">Usuarios</span>
           </h1>
           <form
             ref={formRef}
             onChange={handleChange}
-            onSubmit={handleLogin}
-            className="flex flex-col justify-center items-center gap-6"
+            onSubmit={handleRegister}
+            className="flex flex-col justify-center items-center gap-4"
           >
             <p className="text-grey font-medium text-center">
-              Inicie sesión mediante su usuario de correo institucional
+              Registre su usuario de correo institucional <b>fácil y rápido</b>
             </p>
+            <input
+              name="name"
+              type="text"
+              placeholder="Nombre"
+              className={
+                !errors.name
+                  ? "pl-2 py-1 rounded-lg"
+                  : "pl-2 py-1 rounded-lg border-2 border-solid border-red-500"
+              }
+            />
+            {errors.name && <p className="text-red-500">{errors.name}</p>}
+            <input
+              name="lastname"
+              type="text"
+              placeholder="Apellido"
+              className={
+                !errors.lastname
+                  ? "pl-2 py-1 rounded-lg"
+                  : "pl-2 py-1 rounded-lg border-2 border-solid border-red-500"
+              }
+            />
+            {errors.lastname && <p className="text-red-500">{errors.lastname}</p>}
             <input
               name="user"
               type="text"
@@ -94,9 +122,9 @@ export default function Login() {
             {errors.password && (
               <p className="text-red-500 ">{errors.password}</p>
             )}
-            {!errors.user && !errors.password && (
+            {!errors.name && !errors.lastname && !errors.user && !errors.password && (
               <div
-                className="absolute ml-44 sm:mt-12 mt-[4.5rem] cursor-pointer"
+                className="absolute ml-44 sm:mt-[8.7rem] mt-[10.1rem] cursor-pointer"
                 onClick={() => setShowPwd(!showPwd)}
               >
                 {showPwd ? (
@@ -131,17 +159,14 @@ export default function Login() {
               className="bg-indigo-700 text-white hover:underline py-1 w-36 rounded-lg"
               type="submit"
             >
-              Iniciar Sesión
+              Regístrate
             </button>
           </form>
-          <Link href={publicRoutes.Forget_Password} className="hover:underline">
-            Restablecer contraseña
-          </Link>
           <Link
-            href={publicRoutes.Register}
+            href={publicRoutes.Login}
             className="text-stone-300 font-semibold hover:underline"
           >
-            Registrarse
+            ¿Ya tienes una cuenta? Inicia Sesión
           </Link>
         </section>
       </main>
