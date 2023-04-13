@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ChangeEvent, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -12,12 +12,14 @@ import { getUserAction } from "redux/actions/user-actions/get.user.action";
 import NavBarLogAndReg from "app/components/NavBarLogAndReg";
 import { loginSchema } from "./schemas/login.schema";
 import { InputsLogin } from "./models/login.models";
+import { AppDispatch, RootState } from "redux/store";
 
 export default function Login() {
   const [showPwd, setShowPwd] = useState(false);
   const [formLogin, setFormLogin] = useState({ user: "", password: "" });
   const formRef = useRef() as React.MutableRefObject<HTMLFormElement>;
-  const dispatch = useDispatch<Dispatch<any>>();
+  const dispatch = useDispatch<AppDispatch>();
+  const user = useSelector((state: RootState)=>console.log("state", state.userReducer));
   const {
     register,
     formState: { errors },

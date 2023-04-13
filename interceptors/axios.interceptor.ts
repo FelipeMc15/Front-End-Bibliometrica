@@ -1,7 +1,9 @@
 import axios, { AxiosRequestConfig } from "axios";
 export default function axiosInterceptor() {
+
   function updateHeaders(request: AxiosRequestConfig) {
-    const token = "aquiVaElTokenDelLocalStorage";
+    const user = localStorage.getItem("user")
+    const token = user ? JSON.parse(user).email : ""
     const newHeaders = {
       Authorization: token,
       "Content-Type": "application/json",
@@ -10,7 +12,7 @@ export default function axiosInterceptor() {
     return request;
   }
   axios.interceptors.request.use((request) => {
-    if (request.url?.includes("login") || request.url?.includes("register")) {
+    if (request.url?.includes("richard")) {
       return request;
     } else {
       updateHeaders(request);
