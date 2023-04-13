@@ -1,39 +1,43 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { publicRoutes } from "routes/routes.models";
-import LoginImage from "./assets/Login-Image.jpeg";
-import { FormEvent, useRef, useState } from "react";
-import { getUserAction } from "redux/actions/user-actions/get.user.action";
+import { ChangeEvent, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Dispatch } from "redux";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { publicRoutes } from "routes/routes.models";
+import LoginImage from "./assets/Login-Image.jpeg";
+import { getUserAction } from "redux/actions/user-actions/get.user.action";
 import NavBarLogAndReg from "app/components/NavBarLogAndReg";
+import { loginSchema } from "./schemas/login.schema";
+import { InputsLogin } from "./models/login.models";
 
 export default function Login() {
   const [showPwd, setShowPwd] = useState(false);
-  const [errors, setErrors] = useState({ user: "", password: "" });
+  const [formLogin, setFormLogin] = useState({ user: "", password: "" });
   const formRef = useRef() as React.MutableRefObject<HTMLFormElement>;
   const dispatch = useDispatch<Dispatch<any>>();
-  function handleLogin(e: FormEvent) {
-    e.preventDefault();
-    const formData = new FormData(formRef.current);
-    const values = Object.fromEntries(formData);
-    const errorObject = { user: "", password: "" };
-    if (values.user === "") {
-      errorObject.user = "Debe ingresar un usuario";
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<InputsLogin>({
+    resolver: yupResolver(loginSchema), defaultValues:{
+      user: "",
+      password:""
     }
+  });
 
-    if (values.password === "") {
-      errorObject.password = "Debe ingresar una contraseña";
-    }
-    setErrors(errorObject);
+  const handleLogin: SubmitHandler<InputsLogin> = (data) => {
+    console.log(data, "soy data");
     dispatch(getUserAction(1));
+  };
+
+  function handleChange(e: ChangeEvent<HTMLInputElement>) {
+    setFormLogin({ ...formLogin, [e.target.name]: e.target.value });
   }
-  function handleChange() {
-    if (errors.user || errors.password) {
-      setErrors({ user: "", password: "" });
-    }
-  }
+  
   return (
     <div className="bg-gradient-to-t from-indigo-700 h-screen w-screen">
       <NavBarLogAndReg />
@@ -46,7 +50,7 @@ export default function Login() {
       >
         <Image
           src={LoginImage}
-          alt="Imagen ilustrativa para la sección de Login"
+          alt="Imagen ilustrativa para la sección de Inicio de Sesión"
           className="sm:rounded-r-full rounded-t-[180px]"
           width={800}
           height={900}
@@ -63,28 +67,33 @@ export default function Login() {
           </h1>
           <form
             ref={formRef}
-            onChange={handleChange}
-            onSubmit={handleLogin}
+            onSubmit={handleSubmit(handleLogin)}
             className="flex flex-col justify-center items-center gap-6"
           >
             <p className="text-grey font-medium text-center">
               Inicie sesión mediante su usuario de correo institucional
             </p>
             <input
-              name="user"
+              {...register("user", { required: true })}
+              aria-invalid={errors.user ? "true" : "false"}
               type="text"
               placeholder="Usuario"
+              onChange={handleChange}
               className={
                 !errors.user
                   ? "pl-2 py-1 rounded-lg"
                   : "pl-2 py-1 rounded-lg border-2 border-solid border-red-500"
               }
             />
-            {errors.user && <p className="text-red-500">{errors.user}</p>}
+            {errors.user && (
+              <p className="text-red-500">{errors.user.message}</p>
+            )}
             <input
-              name="password"
+              {...register("password", { required: true })}
+              aria-invalid={errors.password ? "true" : "false"}
               type={!showPwd ? "password" : "text"}
               placeholder="Contraseña"
+              onChange={handleChange}
               className={
                 !errors.password
                   ? "pl-2 py-1 rounded-lg"
@@ -92,7 +101,7 @@ export default function Login() {
               }
             />
             {errors.password && (
-              <p className="text-red-500 ">{errors.password}</p>
+              <p className="text-red-500 ">{errors.password.message}</p>
             )}
             {!errors.user && !errors.password && (
               <div

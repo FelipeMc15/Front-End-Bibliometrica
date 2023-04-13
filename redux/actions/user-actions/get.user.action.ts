@@ -5,6 +5,6 @@ export const GET_USER = "GET USER";
 
 export function getUserAction(id:number){
     return async function() {
-            const user = await axios(`http://localhost:3001/user/${id}`)
+        const user = await axios(`http://localhost:3001/user/${id}`)
     }
 }
