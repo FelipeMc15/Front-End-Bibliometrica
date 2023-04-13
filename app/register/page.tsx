@@ -1,26 +1,27 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Dispatch } from "redux";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { publicRoutes } from "routes/routes.models";
 import LoginImage from "../login/assets/Login-Image.jpeg";
 import NavBarLogAndReg from "app/components/NavBarLogAndReg";
 import { registerSchema } from "./schemas/register.schema";
-import { InputsRegister } from "./models/register.models";
+import {InputsRegister } from "./models/register.models";
+import { AppDispatch } from "redux/store";
+import { registerUserAction } from "redux/actions/user-actions/register.user.action";
 
 export default function Register() {
   const [showPwd, setShowPwd] = useState(false);
   const [formRegister, setFormRegister] = useState({
-    name: "",
+    firstName: "",
     lastname: "",
     user: "",
     password: "",
   });
-  const dispatch = useDispatch<Dispatch<any>>();
+  const dispatch = useDispatch<AppDispatch>();
   const {
     register,
     formState: { errors },
@@ -28,16 +29,16 @@ export default function Register() {
   } = useForm<InputsRegister>({
     resolver: yupResolver(registerSchema),
     defaultValues: {
-      name: "",
-      lastname: "",
-      user: "",
+      firstName: "",
+      lastName: "",
+      email: "",
       password: "",
     },
   });
 
   const handleRegister: SubmitHandler<InputsRegister> = (data) => {
     console.log(data, "soy data");
-    //dispatch(getUserAction(1));
+    dispatch(registerUserAction(data));
   };
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
@@ -49,7 +50,7 @@ export default function Register() {
       <NavBarLogAndReg />
       <main
         className={
-          !errors.name && !errors.lastname && !errors.user && !errors.password
+          !errors.firstName && !errors.lastName && !errors.email && !errors.password
             ? "flex sm:flex-row flex-col-reverse h-[85vh] gap-2"
             : "flex sm:flex-row flex-col-reverse h-[85vh]"
         }
@@ -63,7 +64,7 @@ export default function Register() {
         />
         <section
           className={
-            !errors.name && !errors.lastname && !errors.user && !errors.password
+            !errors.firstName && !errors.lastName && !errors.email && !errors.password
               ? "w-screen flex flex-col justify-center items-center gap-4 p-4"
               : "w-screen flex flex-col justify-center items-center gap-4 pt-4"
           }
@@ -79,49 +80,49 @@ export default function Register() {
               Registre su usuario de correo institucional <b>fácil y rápido</b>
             </p>
             <input
-              {...register("name", { required: true })}
-              aria-invalid={errors.name ? "true" : "false"}
+              {...register("firstName", { required: true })}
+              aria-invalid={errors.firstName ? "true" : "false"}
               type="text"
               placeholder="Nombre"
               onChange={handleChange}
               className={
-                !errors.name
+                !errors.firstName
                   ? "pl-2 py-1 rounded-lg"
                   : "pl-2 py-1 rounded-lg border-2 border-solid border-red-500"
               }
             />
-            {errors.name && (
-              <p className="text-red-500">{errors.name.message}</p>
+            {errors.firstName && (
+              <p className="text-red-500">{errors.firstName.message}</p>
             )}
             <input
-              {...register("lastname", { required: true })}
-              aria-invalid={errors.lastname ? "true" : "false"}
+              {...register("lastName", { required: true })}
+              aria-invalid={errors.lastName ? "true" : "false"}
               type="text"
               placeholder="Apellido"
               onChange={handleChange}
               className={
-                !errors.lastname
+                !errors.lastName
                   ? "pl-2 py-1 rounded-lg"
                   : "pl-2 py-1 rounded-lg border-2 border-solid border-red-500"
               }
             />
-            {errors.lastname && (
-              <p className="text-red-500">{errors.lastname.message}</p>
+            {errors.lastName && (
+              <p className="text-red-500">{errors.lastName.message}</p>
             )}
             <input
-              {...register("user", { required: true })}
-              aria-invalid={errors.user ? "true" : "false"}
+              {...register("email", { required: true })}
+              aria-invalid={errors.email ? "true" : "false"}
               type="text"
               placeholder="Usuario"
               onChange={handleChange}
               className={
-                !errors.user
+                !errors.email
                   ? "pl-2 py-1 rounded-lg"
                   : "pl-2 py-1 rounded-lg border-2 border-solid border-red-500"
               }
             />
-            {errors.user && (
-              <p className="text-red-500">{errors.user.message}</p>
+            {errors.email && (
+              <p className="text-red-500">{errors.email.message}</p>
             )}
             <input
               {...register("password", { required: true })}
@@ -138,9 +139,9 @@ export default function Register() {
             {errors.password && (
               <p className="text-red-500 ">{errors.password.message}</p>
             )}
-            {!errors.name &&
-              !errors.lastname &&
-              !errors.user &&
+            {!errors.firstName &&
+              !errors.lastName &&
+              !errors.email &&
               !errors.password && (
                 <div
                   className="absolute ml-40 sm:mt-[10rem] mt-[10.1rem] cursor-pointer"
