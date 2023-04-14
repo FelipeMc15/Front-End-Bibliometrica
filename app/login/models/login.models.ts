@@ -4,6 +4,6 @@ export interface LoginUser{
 }
 
 export type InputsLogin = {
-    user: string;
+    email: string;
     password: string;
   };

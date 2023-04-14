@@ -2,7 +2,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ChangeEvent, useState } from "react";
-import { useDispatch } from "react-redux";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { publicRoutes } from "routes/routes.models";
@@ -10,18 +9,16 @@ import LoginImage from "../login/assets/Login-Image.jpeg";
 import NavBarLogAndReg from "app/components/NavBarLogAndReg";
 import { registerSchema } from "./schemas/register.schema";
 import {InputsRegister } from "./models/register.models";
-import { AppDispatch } from "redux/store";
-import { registerUserAction } from "redux/actions/user-actions/register.user.action";
+import { registerUserAction } from "./services/register.user.service";
 
 export default function Register() {
   const [showPwd, setShowPwd] = useState(false);
   const [formRegister, setFormRegister] = useState({
     firstName: "",
-    lastname: "",
-    user: "",
+    lastName: "",
+    email: "",
     password: "",
   });
-  const dispatch = useDispatch<AppDispatch>();
   const {
     register,
     formState: { errors },
@@ -36,9 +33,9 @@ export default function Register() {
     },
   });
 
-  const handleRegister: SubmitHandler<InputsRegister> = (data) => {
-    console.log(data, "soy data");
-    dispatch(registerUserAction(data));
+  const handleRegister: SubmitHandler<InputsRegister> = () => {
+    console.log(formRegister, "soy data");
+    registerUserAction(formRegister)
   };
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
