@@ -1,39 +1,33 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { ChangeEvent, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Dispatch } from "redux";
+import { ChangeEvent, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { publicRoutes } from "routes/routes.models";
 import LoginImage from "./assets/Login-Image.jpeg";
-import { getUserAction } from "redux/actions/user-actions/get.user.action";
 import NavBarLogAndReg from "app/components/NavBarLogAndReg";
 import { loginSchema } from "./schemas/login.schema";
 import { InputsLogin } from "./models/login.models";
-import { AppDispatch, RootState } from "redux/store";
+import { getUserAction } from "./services/get.user.service";
 
 export default function Login() {
   const [showPwd, setShowPwd] = useState(false);
-  const [formLogin, setFormLogin] = useState({ user: "", password: "" });
-  const formRef = useRef() as React.MutableRefObject<HTMLFormElement>;
-  const dispatch = useDispatch<AppDispatch>();
-  const user = useSelector((state: RootState)=>console.log("state", state.userReducer));
+  const [formLogin, setFormLogin] = useState({ email: "", password: "" });
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm<InputsLogin>({
     resolver: yupResolver(loginSchema), defaultValues:{
-      user: "",
+      email: "",
       password:""
     }
   });
 
-  const handleLogin: SubmitHandler<InputsLogin> = (data) => {
-    console.log(data, "soy data");
-    dispatch(getUserAction(1));
+  const handleLogin: SubmitHandler<InputsLogin> = () => {
+    console.log(formLogin, "soy data");
+    getUserAction(1)
   };
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
@@ -45,7 +39,7 @@ export default function Login() {
       <NavBarLogAndReg />
       <main
         className={
-          !errors.user && !errors.password
+          !errors.email && !errors.password
             ? "flex sm:flex-row flex-col-reverse h-[85vh] gap-2"
             : "flex sm:flex-row flex-col-reverse h-[85vh]"
         }
@@ -59,7 +53,7 @@ export default function Login() {
         />
         <section
           className={
-            !errors.user && !errors.password
+            !errors.email && !errors.password
               ? "w-screen flex flex-col justify-center items-center gap-4 p-4"
               : "w-screen flex flex-col justify-center items-center gap-4 pt-4"
           }
@@ -68,7 +62,6 @@ export default function Login() {
             Ingreso de <span className="text-indigo-700">Usuarios</span>
           </h1>
           <form
-            ref={formRef}
             onSubmit={handleSubmit(handleLogin)}
             className="flex flex-col justify-center items-center gap-6"
           >
@@ -76,19 +69,19 @@ export default function Login() {
               Inicie sesión mediante su usuario de correo institucional
             </p>
             <input
-              {...register("user", { required: true })}
-              aria-invalid={errors.user ? "true" : "false"}
+              {...register("email", { required: true })}
+              aria-invalid={errors.email ? "true" : "false"}
               type="text"
               placeholder="Usuario"
               onChange={handleChange}
               className={
-                !errors.user
+                !errors.email
                   ? "pl-2 py-1 rounded-lg"
                   : "pl-2 py-1 rounded-lg border-2 border-solid border-red-500"
               }
             />
-            {errors.user && (
-              <p className="text-red-500">{errors.user.message}</p>
+            {errors.email && (
+              <p className="text-red-500">{errors.email.message}</p>
             )}
             <input
               {...register("password", { required: true })}
@@ -105,7 +98,7 @@ export default function Login() {
             {errors.password && (
               <p className="text-red-500 ">{errors.password.message}</p>
             )}
-            {!errors.user && !errors.password && (
+            {!errors.email && !errors.password && (
               <div
                 className="absolute ml-40 sm:mt-12 mt-[4.5rem] cursor-pointer"
                 onClick={() => setShowPwd(!showPwd)}
