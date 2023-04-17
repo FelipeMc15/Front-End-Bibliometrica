@@ -1,4 +1,6 @@
+"use client";
 import React from "react";
+import { HomeDropDown } from "./components/HomeDropDown";
 export default function HomePageLayout({
   children,
 }: {
@@ -9,6 +11,11 @@ export default function HomePageLayout({
     "Solicitud de servicios",
     "Base de datos",
   ];
+
+  const dropItems = {
+    title: "DropDown",
+    items: ["testItem", "testItem", "testItem", "testItem"],
+  };
 
   return (
     <div className="w-full">
@@ -36,9 +43,10 @@ export default function HomePageLayout({
         <h2 className="text-center font-bold text-xl text-slate-100">
           MI BIBLIOTECA
         </h2>
+        <HomeDropDown {...dropItems} />
         <ul className="flex flex-col text-slate-100 gap-4 p-4">
           {sideItems.map((e: string, index: number) => (
-            <li>{e}</li>
+            <li key={index}>{e}</li>
           ))}
         </ul>
       </aside>
