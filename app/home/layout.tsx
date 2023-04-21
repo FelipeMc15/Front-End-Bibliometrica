@@ -1,15 +1,18 @@
 "use client";
 import React, { useState } from "react";
 import { HomeDropDown } from "./components/HomeDropDown";
+import { privateRoutes } from "routes/routes.models";
+import "./scrollbar.style.css";
+import Link from "next/link";
 export default function HomePageLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   const sideItems = [
-    "Trámite de documentos",
-    "Solicitud de servicios",
-    "Base de datos",
+    {title: "Trámite de documentos" , url:`${privateRoutes.Home}${privateRoutes.Documents}`},
+    {title: "Solicitud de servicios" , url:`${privateRoutes.Home}${privateRoutes.Services}`},
+    {title: "Base de datos" , url:`${privateRoutes.Home}${privateRoutes.DataBase}`}
   ];
 
   const dropItems = {
@@ -20,7 +23,7 @@ export default function HomePageLayout({
   const [open, setopen] = useState(false);
 
   return (
-    <div className="w-full">
+    <div className="w-full ">
       <nav className="fixed top-0 pl-[13rem] p-6 flex flex-row justify-between items-center h-20 bg-white shadow-md shadow-slate-300 w-full">
         <form className="flex flex-row overflow-hidden rounded-md">
           <input
@@ -42,27 +45,21 @@ export default function HomePageLayout({
           Calendario
         </button>
       </nav>
-
-      <aside className="flex flex-col fixed w-[12rem] bg-indigo-700 top-0 h-screen py-8 overflow-y-scroll">
-        <h2 className="text-center font-bold text-xl text-slate-100">
+      <aside className=" container-snap flex flex-col fixed w-[12rem] bg-indigo-700 top-0 h-screen py-8 overflow-y-scroll">
+        <h2 className="text-center font-bold text-xl text-slate-100 pb-8 border-b-[1px]">
           MI BIBLIOTECA
         </h2>
         <HomeDropDown {...dropItems} />
-        <ul className="flex flex-col text-slate-100 gap-4 p-4">
-          {sideItems.map((e: string, index: number) => (
-            <li key={index}>{e}</li>
+        <ul >
+          {sideItems.map((item) => (
+            <Link href={item.url}>
+              <li className="hover:bg-blue-700 transition-all duration-300 flex flex-col gap-2 text-white text-start border-b-[1px] w-full border-current py-2 px-4 whitespace-nowrap" key={item.title}>{item.title}</li>
+            </Link>
           ))}
         </ul>
         <HomeDropDown {...dropItems} />
       </aside>
-
-      {/* <aside
-        className={`fixed h-screen w-96 bg-slate-400 ${
-          open ? "translate-x-96" : "translate-x-0"
-        } transition-all duration-500}`}
-      ></aside> */}
-
-      <main className="ml-[12rem] mt-20">{children}</main>
+      <main className="ml-[12rem] mt-20 ">{children}</main>
     </div>
   );
 }

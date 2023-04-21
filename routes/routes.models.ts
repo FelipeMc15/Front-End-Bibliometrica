@@ -8,3 +8,10 @@ export const publicRoutes: Routes = {
     Register: "/register",
     Forget_Password: "forget-password"
 }
+
+export const privateRoutes = {
+    Home: "/home",
+    Services :"/services",
+    Documents : "/documents",
+    DataBase : "/data-base"
+}
