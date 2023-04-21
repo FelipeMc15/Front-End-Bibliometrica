@@ -13,7 +13,7 @@ export const HomeDropDown = ({ title, items }: Props) => {
     setOpen(!open);
   };
   return (
-    <ul className="flex flex-col gap-2 text-white text-start border-y-[1px] w-full border-current py-2 px-4 font-light">
+    <ul className="flex flex-col gap-2 hover:bg-blue-700 transition-all duration-300 text-white text-start border-b-[1px] w-full border-current py-2 px-4 font-light">
       <div className="hover:cursor-pointer" onClick={handleClick}>
         <Image
           src={arrow_rigth}
@@ -31,9 +31,9 @@ export const HomeDropDown = ({ title, items }: Props) => {
           open ? "max-h-40" : "max-h-0"
         }`}
       >
-        {items.map((e, index) => (
-          <li className="ml-2 hover:cursor-pointer" key={index}>
-            {e}
+        {items.map((item) => (
+          <li className="pl-2 hover:cursor-pointer hover:font-normal transition-all duration-300" key={item}>
+            {item}
           </li>
         ))}
       </div>

@@ -1,9 +1,9 @@
 import Image from "next/image";
 import React from "react";
 import testImage from "public/assets/testImage.jpg";
-function HomeCard({}) {
+function HomeCard() {
   return (
-    <div className="w-64 h-80 flex flex-col gap-2 justify-center items-center overflow-hidden bg-white shadow-sm shadow-slate-600 p-2 hover:shadow-lg transition-all duration-500">
+    <div className="w-64 h-80 flex flex-col gap-2 justify-center items-center overflow-hidden bg-white hover:shadow-xl shadow-slate-600 p-2 transition-all duration-500">
       <Image src={testImage} alt="imagen_perrito.jpg" className="w-full h-44" />
       <p className="text-slate-500 font-normal text-sm text-center">
         Lorem ipsum dolor sit amet consectetur, adipisicing elit. Blanditiis,

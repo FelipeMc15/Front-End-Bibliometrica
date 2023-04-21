@@ -17,7 +17,7 @@ export default function RootLayout({
   axiosInterceptor();
   return (
     <html lang="en">
-      <body className="bg-slate-100">
+      <body className="bg-slate-200">
         <Provider store={store}>{children}</Provider>
       </body>
     </html>
