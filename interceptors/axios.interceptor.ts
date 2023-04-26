@@ -2,8 +2,8 @@ import axios, { AxiosRequestConfig } from "axios";
 export default function axiosInterceptor() {
 
   function updateHeaders(request: AxiosRequestConfig) {
-    const user = localStorage.getItem("user")
-    const token = user ? JSON.parse(user).email : ""
+    const userFromLocal = localStorage.getItem("user")
+    const token = userFromLocal ? JSON.parse(userFromLocal).user.email : ""
     const newHeaders = {
       Authorization: token,
       "Content-Type": "application/json",

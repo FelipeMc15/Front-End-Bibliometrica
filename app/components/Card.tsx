@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
-import testImage from "public/assets/1200px-Biblioteca-montserrat.jpg";
-function HomeCard() {
+import testImage from "../../public/assets/1200px-Biblioteca-montserrat.jpg";
+function GeneralCard() {
   return (
     <div className="w-64 h-80 flex flex-col gap-2 justify-center items-center overflow-hidden bg-white hover:shadow-xl shadow-slate-600 p-2 transition-all duration-500">
       <Image src={testImage} alt="imagen_perrito.jpg" className="w-full h-44" />
@@ -16,4 +16,4 @@ function HomeCard() {
   );
 }
 
-export default HomeCard;
+export default GeneralCard;

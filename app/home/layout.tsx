@@ -46,13 +46,15 @@ export default function HomePageLayout({
         </button>
       </nav>
       <aside className=" container-snap flex flex-col fixed w-[12rem] bg-indigo-700 top-0 h-screen py-8 overflow-y-scroll">
+        <Link href={privateRoutes.Home}>
         <h2 className="text-center font-bold text-xl text-slate-100 pb-8 border-b-[1px]">
           MI BIBLIOTECA
         </h2>
+        </Link>
         <HomeDropDown {...dropItems} />
         <ul >
           {sideItems.map((item) => (
-            <Link href={item.url}>
+            <Link key={item.title} href={item.url}>
               <li className="hover:bg-blue-700 transition-all duration-300 flex flex-col gap-2 text-white text-start border-b-[1px] w-full border-current py-2 px-4 whitespace-nowrap" key={item.title}>{item.title}</li>
             </Link>
           ))}
