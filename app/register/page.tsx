@@ -34,9 +34,8 @@ export default function Register() {
     },
   });
 
-  const handleRegister: SubmitHandler<InputsRegister> = () => {
-    console.log(formRegister, "soy data");
-    registerUserAction(formRegister);
+  const handleRegister: SubmitHandler<InputsRegister> = async () => {
+    const userRegistered = await registerUserAction(formRegister);
   };
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {

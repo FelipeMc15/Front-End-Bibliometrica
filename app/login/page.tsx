@@ -4,17 +4,19 @@ import Link from "next/link";
 import { ChangeEvent, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { publicRoutes } from "routes/routes.models";
+import { privateRoutes, publicRoutes } from "routes/routes.models";
 import LoginImage from "./assets/Login-Image.jpeg";
 import NavBarLogAndReg from "app/components/NavBarLogAndReg";
 import { loginSchema } from "./schemas/login.schema";
 import { InputsLogin } from "./models/login.models";
 import { getUserAction } from "./services/get.user.service";
 import { hiddenPassword, showPassword } from "public/icons/showPassword";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
   const [showPwd, setShowPwd] = useState(false);
   const [formLogin, setFormLogin] = useState({ email: "", password: "" });
+  const router = useRouter()
   const {
     register,
     formState: { errors },
@@ -27,9 +29,11 @@ export default function Login() {
     },
   });
 
-  const handleLogin: SubmitHandler<InputsLogin> = () => {
-    console.log(formLogin, "soy data");
-    getUserAction(1);
+  const handleLogin: SubmitHandler<InputsLogin> = async () => {
+    const responseLogin = await getUserAction(formLogin);
+    if(localStorage.getItem("user")){
+      router.push(privateRoutes.Home)
+    }
   };
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
