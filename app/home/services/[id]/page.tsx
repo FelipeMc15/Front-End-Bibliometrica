@@ -4,7 +4,6 @@ import testImg from "public/assets/1200px-Biblioteca-montserrat.jpg";
 import HomeFooter from "app/home/components/HomeFooter";
 import Checkbox from "app/home/components/Checkbox";
 import InputWithLabel from "app/home/components/InputWithLabel";
-
 type Params = {
   id: number;
 };
@@ -47,11 +46,10 @@ const ServiceId = ({ params }: Props) => {
   };
 
   const { name, contactInfo, p } = infoFromId;
-
   return (
     <>
-      <div className="flex justify-between w-full p-8 h-screen">
-        <div className="w-1/3 h-full p-8 bg-indigo-700 text-white border border-black border-r-0">
+      <div className="flex justify-between w-full p-0.5 h-screen">
+        <div className="w-1/3 h-full flex flex-col pt-[8%] gap-8 bg-indigo-700 text-white ">
           <h2 className="text-3xl font-bold text-center">{name}</h2>
           <Image
             src={testImg}
@@ -63,7 +61,7 @@ const ServiceId = ({ params }: Props) => {
           <h4 className="text-center font-light text-xl">{contactInfo}</h4>
           <p className="text-center font-extralight text-lg">{p}</p>
         </div>
-        <form className="w-2/3 h-full bg-white p-4 flex flex-col gap-2 border border-black border-l-0">
+        <form className="w-2/3 h-full bg-white p-4 flex flex-col pt-[8%] gap-2">
           <h2 className="font-semibold text-lg">
             Seleccione los temas de su interés
           </h2>
