@@ -24,7 +24,7 @@ export default function HomePageLayout({
 
   return (
     <div className="w-full ">
-      <nav className="fixed top-0 pl-[13rem] p-6 flex flex-row justify-between items-center h-20 bg-white shadow-md shadow-slate-300 w-full">
+      <nav className="fixed top-0 pl-[13rem] p-6 flex flex-row justify-between items-center h-20 bg-white w-full">
         <form className="flex flex-row overflow-hidden rounded-md">
           <input
             className="bg-slate-200 px-4"
